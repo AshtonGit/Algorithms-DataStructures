@@ -44,7 +44,7 @@
 
 public class Djikstra {
 
-    private int minDistance(int[] distance, boolean[] visited){
+    private static int minDistance(int[] distance, boolean[] visited){
         int n = distance.length;
         int minIndex = -1;
         int min = Integer.MAX_VALUE;
@@ -58,17 +58,19 @@ public class Djikstra {
 
     }
 
-    public int[] dijkstra(int[][] graph, int src){
+    public static int[] dijkstra(int[][] graph, int src){
         int V = graph.length;
         int[] distance = new int[V];
+        int[] path = new int[V];
         boolean[] visited = new boolean[V];
         for(int i=0; i<V; i++){
             distance[i]=Integer.MAX_VALUE;
             visited[i]=false;
+            path[i] = -1;
         }
 
         distance[src]=0;
-
+        path[src] = src;
         for(int i =0; i<V-1; i++){
             int u = minDistance(distance, visited);
             visited[u] = true;
@@ -76,11 +78,12 @@ public class Djikstra {
             for(int v =0; v<V; v++){
                 if(!visited[v] && graph[u][v] !=0 && distance[u]!= Integer.MAX_VALUE && distance[u] + graph[u][v] < distance[v]){
                     distance[v] = distance[u]+graph[u][v];
+                    path[v] = u;
                 }
             }
         }
 
-        return distance;
+        return path;
     }
 
 }
